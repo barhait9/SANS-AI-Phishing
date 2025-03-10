@@ -1,9 +1,14 @@
-import tensorflow as tf
 import pandas as pd
-import csv
-import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
-warnings.filterwarnings('ignore')
+import numpy as np
+
+# Make numpy values easier to read.
+np.set_printoptions(precision=3, suppress=True)
+
+import tensorflow as tf
+from tensorflow.keras import layers
+
+
+
 
 
 
