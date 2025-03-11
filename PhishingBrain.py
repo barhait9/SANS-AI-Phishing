@@ -6,7 +6,7 @@ from tensorflow.keras import layers
 # Make numpy values easier to read.
 np.set_printoptions(precision=3, suppress=True)
 
-tf.keras.preprocessing.sequence.skipgram()
+tf.keras.preprocessing.sequence.skipgrams()
 
 
 
