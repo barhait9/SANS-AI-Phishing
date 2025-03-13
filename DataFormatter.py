@@ -44,30 +44,35 @@ for i, email in enumerate(bodyAsSentences):  # for email in list
         bodyAsWords[i].append(sentence.split())  # Breaks up sentence string into list of words
 
 # NEED TO REMOVE EMPTY SENTENCES
-# OR NEXT PART WON'T WORK
-
-# Trying to join email terminal words to previous sentence
-grabWordOfNextList = False # To keep track of if sentence ends in an email over sentence iterations
-
-for i, email in enumerate(bodyAsWords):  # for email in list
-    for j, sentence in enumerate(email):  # for sentence in email
-        if grabWordOfNextList:
-            #print("PREVIOUS SENTENCE: ", bodyAsWords[i][j-1])
-            #print("AFTER SENTENCE: ",bodyAsWords[i][j])
-            bodyAsWords[i][j-1].append(bodyAsWords[i][j].pop(0)) # moves first word in current sentence to previous sentence
-
-            if len(bodyAsWords[i][j]) == 0:
-                pass
-                #del bodyAsWords[i][j] # delete current sentence array, (there was only one email terminal in it)
-                #instead of deleting here, save indexes to delete after all for loops have finished
-            else:
-                grabWordOfNextList = False # start of new sentence so stop moving email terminal words
-
-        if len(bodyAsWords[i][j]) > 1:
-            if bodyAsWords[i][j][-2] == "@":
-                grabWordOfNextList = True
+for i in range(len(bodyAsWords)-1, -1, -1): # iterating through list starting from end
+    for j in range(len(bodyAsWords[i])-1, -1, -1):
+        if not bodyAsWords[i][j]: # if sentence is empty
+            del bodyAsWords[i][j]
 
 
-print(bodyAsWords[1][1][-2])
+# Joining sentences where (simple) singular full stop email domains were split up
+for email in range(len(bodyAsWords)-1, -1, -1):  # for email index in list starting from end
+    for sentence in range(len(bodyAsWords[email])-1, -1, -1):  # for sentence index in this email starting from end
+
+        if len(bodyAsWords[email][sentence]) > 1: # If sentence has at least 2 words in it
+            if bodyAsWords[email][sentence][-2] == "@": # If second last word is "@" symbol
+                if sentence != len(bodyAsWords[email])-1: # If there is a sentence after this sentence in the email
+
+                    bodyAsWords[email][sentence].extend(bodyAsWords[email][sentence+1]) # Combines sentence containing @ with following sentence
+
+                    del bodyAsWords[email][sentence+1] # Delete (now) duplicate following sentence
+"""
+ Sentence joiner code above doesn't look for multi domain endings like .co.uk, or fullstops in email names like bar.hait@gmail.com
+ The only fullstops it detects (and fixes) are fullstops in simple email domains of the form name@mail.domain -> AKA singular full stop email domains
+ Other than in these cases, any full stops that don't signify sentence endings will mess up the sentence splits.
+ TBF this code does fix a lot of wrongly split sentence cases but also leaves many still unfixed...
+"""
+
+# Printing all sentences
+for email in bodyAsWords:
+    for sentence in email:
+        print("SENTENCE: ", sentence)
+
+# bodyAsWords fully cleaned?
 
 #print(bodyAsSentences[1][0])
