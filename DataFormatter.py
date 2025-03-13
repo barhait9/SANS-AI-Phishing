@@ -9,10 +9,6 @@ This file will then have all the data for the Word2Vec to train from
 def specGone(sentence):
     return re.sub(r'[^a-zA-Z.!?@\s]', '', sentence).replace("\n", " ").replace("�", "")
 
-
-
-
-
 def removeSpace(sentence):
     return re.sub(r'\s+', ' ', sentence)
 
@@ -33,8 +29,14 @@ for i in range(0, len(subjects)):
 
 bodyAsSentences = [] # List of Email Lists of Sentence Strings
 
-for body in bodyArray:
+for i, body in enumerate(bodyArray):
+
     bodyAsSentences.append(re.split(r'[.!?]', body))
+
+    # INCLUDE SUBJECTS ?
+    # bodyAsSentences[i].insert(0, subjectArray[i]) # This line would insert subject data as the first sentence of the body
+
+
 
 bodyAsWords = [] # List of Email Lists of Sentence Lists of Word Strings
 
@@ -55,14 +57,13 @@ for email in range(len(bodyAsWords)-1, -1, -1):  # for email index in list start
     for sentence in range(len(bodyAsWords[email])-1, -1, -1):  # for sentence index in this email starting from end
 
         if len(bodyAsWords[email][sentence]) > 1: # If sentence has at least 2 words in it
-            if bodyAsWords[email][sentence][-2] == "@": # If second last word is "@" symbol
+            if bodyAsWords[email][sentence][-2] == "@" or "@" in bodyAsWords[email][sentence][-1]: # If sentence contains @ symbol at end
                 if sentence != len(bodyAsWords[email])-1: # If there is a sentence after this sentence in the email
-
-
 
                     bodyAsWords[email][sentence].extend(bodyAsWords[email][sentence+1]) # Combines sentence containing @ with following sentence
 
                     del bodyAsWords[email][sentence+1] # Delete (now) duplicate following sentence
+
 """
  Sentence joiner code above doesn't look for multi domain endings like .co.uk, or fullstops in email names like bar.hait@gmail.com
  The only fullstops it detects (and fixes) are fullstops in simple email domains of the form name@mail.domain -> AKA singular full stop email domains
@@ -72,10 +73,7 @@ for email in range(len(bodyAsWords)-1, -1, -1):  # for email index in list start
 
 # Printing all sentences
 
-for email in bodyAsWords:
-    for sentence in email:
-        print("SENTENCE: ", sentence)
+def get_cleaned_dataset():
+    return bodyAsWords
 
 # bodyAsWords fully cleaned?
-
-print(bodyAsSentences[1][0])
