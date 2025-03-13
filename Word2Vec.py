@@ -3,14 +3,39 @@ import numpy as np
 
 
 body = "hello this will be a test of the email today semantic analysis of words for skipgram this is needed because why not type type"
+emails = []
 
 words = body.split()
-vocab = list(set(words))  # only shows unique words
+vocab = list(set(word for email in emails for sentence in email for word in sentence)) # only shows unique words
 word2idx = {word: i for i, word in enumerate(vocab)}
 idx2word = {i: word for word, i in word2idx.items()}
 
-def generate_training_data(words, window_size=2):
+def generate_training_data(emails_words, word2idx, window_size=3, neg_samples=2):
     training_data = []
+    for email in emails:
+        for sentence in email:
+            for i,target_word in enumerate(sentence):
+                target_idx = word2idx[target_word]
+
+                start = max(0,i - window_size)
+                end = min(len(sentence),i + window_size + 1)
+
+                context_words = [sentence[j] for j in range(start, end) if j != i]
+
+                for context_word in context_words:
+                    context_idx = word2idx[context_word]
+                    training_data.append((target_idx, context_idx, 1))
+
+                for negative in range(neg_samples):
+                    # Choose a random word for the negative sample
+                    neg_word = random.choice(vocab)
+                    while neg_word in context_words:  # Avoid choosing context words
+                        neg_word = random.choice(vocab)
+                    neg_idx = word2idx[neg_word]
+                    training_data.append((target_idx, neg_idx, 0))  # Negative sample
+
+
+    '''
     for i, target_word in enumerate(words):
         target_idx = word2idx[target_word]
         start = max(0, i - window_size)
@@ -20,9 +45,10 @@ def generate_training_data(words, window_size=2):
                 context_word = words[j]
                 context_idx = word2idx[context_word]
                 training_data.append((target_idx, context_idx))
+                '''
     return training_data
 
-training_data = generate_training_data(words)
+training_data = generate_training_data(emails,word2idx)
 
 class SkipGram:
     def __init__(self,vocab_size,embedding_dim=300,learning_rate=0.01):
