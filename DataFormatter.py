@@ -48,14 +48,13 @@ for i, email in enumerate(bodyAsSentences):  # for email in list
 # NEED TO REMOVE EMPTY SENTENCES
 for i in range(len(bodyAsWords)-1, -1, -1): # iterating through list starting from end
     for j in range(len(bodyAsWords[i])-1, -1, -1):
-        if not bodyAsWords[i][j]: # if sentence is empty
+        if len(bodyAsWords[i][j]) <= 1 or not bodyAsWords[i][j]: # if sentence is empty
             del bodyAsWords[i][j]
 
 
 # Joining sentences where (simple) singular full stop email domains were split up
 for email in range(len(bodyAsWords)-1, -1, -1):  # for email index in list starting from end
     for sentence in range(len(bodyAsWords[email])-1, -1, -1):  # for sentence index in this email starting from end
-
         if len(bodyAsWords[email][sentence]) > 1: # If sentence has at least 2 words in it
             if bodyAsWords[email][sentence][-2] == "@" or "@" in bodyAsWords[email][sentence][-1]: # If sentence contains @ symbol at end
                 if sentence != len(bodyAsWords[email])-1: # If there is a sentence after this sentence in the email
@@ -63,6 +62,12 @@ for email in range(len(bodyAsWords)-1, -1, -1):  # for email index in list start
                     bodyAsWords[email][sentence].extend(bodyAsWords[email][sentence+1]) # Combines sentence containing @ with following sentence
 
                     del bodyAsWords[email][sentence+1] # Delete (now) duplicate following sentence
+
+# NEED TO REMOVE 1 WORD SENTENCES
+for i in range(len(bodyAsWords)-1, -1, -1): # iterating through list starting from end
+    for j in range(len(bodyAsWords[i])-1, -1, -1):
+        if len(bodyAsWords[i][j]) <= 1: # if sentence only has 1 word
+            del bodyAsWords[i][j]
 
 """
  Sentence joiner code above doesn't look for multi domain endings like .co.uk, or fullstops in email names like bar.hait@gmail.com
