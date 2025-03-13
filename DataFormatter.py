@@ -42,32 +42,3 @@ for i, email in enumerate(bodyAsSentences):  # for email in list
     bodyAsWords.append([]) # Append an empty email
     for j, sentence in enumerate(email):  # for sentence in email
         bodyAsWords[i].append(sentence.split())  # Breaks up sentence string into list of words
-
-# NEED TO REMOVE EMPTY SENTENCES
-# OR NEXT PART WON'T WORK
-
-# Trying to join email terminal words to previous sentence
-grabWordOfNextList = False # To keep track of if sentence ends in an email over sentence iterations
-
-for i, email in enumerate(bodyAsWords):  # for email in list
-    for j, sentence in enumerate(email):  # for sentence in email
-        if grabWordOfNextList:
-            #print("PREVIOUS SENTENCE: ", bodyAsWords[i][j-1])
-            #print("AFTER SENTENCE: ",bodyAsWords[i][j])
-            bodyAsWords[i][j-1].append(bodyAsWords[i][j].pop(0)) # moves first word in current sentence to previous sentence
-
-            if len(bodyAsWords[i][j]) == 0:
-                pass
-                #del bodyAsWords[i][j] # delete current sentence array, (there was only one email terminal in it)
-                #instead of deleting here, save indexes to delete after all for loops have finished
-            else:
-                grabWordOfNextList = False # start of new sentence so stop moving email terminal words
-
-        if len(bodyAsWords[i][j]) > 1:
-            if bodyAsWords[i][j][-2] == "@":
-                grabWordOfNextList = True
-
-
-print(bodyAsWords[1][1][-2])
-
-#print(bodyAsSentences[1][0])
