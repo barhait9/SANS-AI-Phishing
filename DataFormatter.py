@@ -48,7 +48,7 @@ for i, email in enumerate(bodyAsSentences):  # for email in list
 # NEED TO REMOVE EMPTY SENTENCES
 for i in range(len(bodyAsWords)-1, -1, -1): # iterating through list starting from end
     for j in range(len(bodyAsWords[i])-1, -1, -1):
-        if len(bodyAsWords[i][j]) <= 1 or not bodyAsWords[i][j]: # if sentence is empty
+        if not bodyAsWords[i][j]: # if sentence is empty
             del bodyAsWords[i][j]
 
 
