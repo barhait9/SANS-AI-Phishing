@@ -4,7 +4,7 @@ import DataFormatter as df
 
 
 body = "hello this will be a test of the email today semantic analysis of words for skipgram this is needed because why not type type"
-emails = df.getEmails()
+emails = df.get_cleaned_dataset()
 
 words = body.split()
 vocab = list(set(word for email in emails for sentence in email for word in sentence)) # only shows unique words
@@ -78,16 +78,19 @@ class SkipGram:
         self.W1[target_idx] -= self.learning_rate * np.dot(self.W2, error)
     # Now train Neural network using window array and target word
 
-    def train(self,training_data,epochs=50):
+    def train(self,training_data,epochs=1):
         for epoch in range(epochs):
             total_loss = 0
-            for target_idx, context_idx in training_data:
+            for target_idx, context_idx, _ in training_data:
                 y_pred, h = self.forward(target_idx)
                 self.backprop(target_idx,context_idx,y_pred,h)
                 total_loss += -np.log(y_pred[context_idx])
-            if epoch % 10 == 0:
+            if epoch % 1 == 0:
                 print(f"Epoch {epoch}, Loss: {total_loss:.4f}")
-
+print(f"Sample training data: {training_data[:5]}")
+print(f"Vocab size:{len(vocab)}")
+print("num of pairs below")
+print(len(training_data))
 skipgram = SkipGram(vocab_size=len(vocab))
 skipgram.train(training_data)
 
