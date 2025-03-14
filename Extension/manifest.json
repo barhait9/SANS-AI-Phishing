@@ -1,4 +1,5 @@
 {
+    "manifest_version": 3,
     "name": "SANS Phishing AI",
     "version": "1.0",
     "description": "An AI extension to detect a phishing scam",
