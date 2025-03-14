@@ -6,5 +6,8 @@
     "host_permissions": ["https://mail.google.com/*"],
     "background":{
         "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "phishingExtension.html"
     }
 }
