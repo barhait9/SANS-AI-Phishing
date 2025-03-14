@@ -1,9 +1,10 @@
 import random
 import numpy as np
+import DataFormatter as df
 
 
 body = "hello this will be a test of the email today semantic analysis of words for skipgram this is needed because why not type type"
-emails = []
+emails = df.getEmails()
 
 words = body.split()
 vocab = list(set(word for email in emails for sentence in email for word in sentence)) # only shows unique words
