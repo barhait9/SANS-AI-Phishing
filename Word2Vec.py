@@ -76,6 +76,8 @@ class SkipGram:
 
         self.W2 -= self.learning_rate * np.outer(h, error)
         self.W1[target_idx] -= self.learning_rate * np.dot(self.W2, error)
+
+        
     # Now train Neural network using window array and target word
 
     def train(self,training_data,epochs=1):
