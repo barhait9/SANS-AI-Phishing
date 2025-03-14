@@ -52,7 +52,7 @@ def generate_training_data(emails_words, word2idx, window_size=3, neg_samples=2)
 training_data = generate_training_data(emails,word2idx)
 
 class SkipGram:
-    def __init__(self,vocab_size,embedding_dim=300,learning_rate=0.01):
+    def __init__(self,vocab_size,embedding_dim=300,learning_rate=0.1):
         self.vocab_size = vocab_size
         self.embedding_dim = embedding_dim
         self.learning_rate = learning_rate
@@ -80,12 +80,15 @@ class SkipGram:
 
 
     def train(self,training_data,epochs=1):
+        progress = 0
         for epoch in range(epochs):
             total_loss = 0
             for target_idx, context_idx, _ in training_data:
                 y_pred, h = self.forward(target_idx)
                 self.backprop(target_idx,context_idx,y_pred,h)
                 total_loss += -np.log(y_pred[context_idx])
+                progress += 1
+                print((progress / len(training_data)) * 100, " % ")
             if epoch % 1 == 0:
                 print(f"Epoch {epoch}, Loss: {total_loss:.4f}")
 print(f"Sample training data: {training_data[:5]}")
