@@ -1,6 +1,6 @@
 {
     "name": "SANS Phishing AI",
-    "version": 2,
+    "version": "1.0",
     "description": "An AI extension to detect a phishing scam",
     "permissions": ["activeTab","scripting"],
     "host_permissions": ["https://mail.google.com/*"],
