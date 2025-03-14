@@ -42,7 +42,7 @@ class Layer:
 
         return self.outputs
 
-    def backward(self, d_output, learning_rate):
+    def backward(self, d_output, learning_rate, momentum=0.9):
         """
         Performs backpropagation for the layer.
 
@@ -63,8 +63,17 @@ class Layer:
         d_inputs = np.zeros_like(self.inputs)
 
         for i, neuron in enumerate(self.neurons):
+            '''
             neuron.weights -= learning_rate * d_activation[i] * self.inputs
             neuron.bias -= learning_rate * d_activation[i]
+            d_inputs += d_activation[i] * neuron.weights
+            '''
+
+            d_weights = d_activation[i] * self.inputs
+            d_bias = d_activation[i]
+
+            neuron.update_weights(d_weights, d_bias, learning_rate, momentum)
+
             d_inputs += d_activation[i] * neuron.weights
 
         return d_inputs

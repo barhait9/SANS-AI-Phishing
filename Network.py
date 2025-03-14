@@ -30,7 +30,7 @@ class Network:
             inputs = layer.forward(inputs)
         return inputs
 
-    def backward(self, y_true, y_pred, learning_rate):
+    def backward(self, y_true, y_pred, learning_rate, momentum=0.9):
         """
         Performs backpropagation and updates weights.
 
@@ -41,7 +41,7 @@ class Network:
         """
         loss_gradient = y_pred - y_true  # Derivative of loss w.r.t. output
         for layer in reversed(self.layers):
-            loss_gradient = layer.backward(loss_gradient, learning_rate)
+            loss_gradient = layer.backward(loss_gradient, learning_rate, momentum)
 
     def train(self, X_train, y_train, epochs=100, learning_rate=0.01):
         """

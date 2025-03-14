@@ -14,6 +14,8 @@ class Neuron:
         """
         self.weights = np.random.randn(input_size) * 0.01  # Small random values
         self.bias = np.random.randn() * 0.01  # Small bias value
+        self.v_weights = np.zeros_like(self.weights)
+        self.v_bias = 0.0
 
     def forward(self, inputs):
         """
@@ -26,3 +28,10 @@ class Neuron:
             float: The output before activation.
         """
         return np.dot(self.weights, inputs) + self.bias
+
+    def update_weights(self, d_weights, d_bias, learning_rate, momentum):
+        self.v_weights = momentum * self.v_weights + learning_rate * d_weights
+        self.v_bias = momentum * self.v_bias + learning_rate * d_bias
+
+        self.weights -= self.v_weights
+        self.bias -= self.v_bias

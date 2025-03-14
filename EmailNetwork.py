@@ -10,7 +10,7 @@ class EmailNetwork:
         """
         Initializes an email classification neural network.
         """
-        self.network = Network(input_size=300, hidden_sizes=[128, 64], output_size=1)
+        self.network = Network(input_size=300, hidden_sizes=[256, 128], output_size=1)
 
     def classify(self, embedding):
         """
@@ -23,7 +23,7 @@ class EmailNetwork:
             int: 1 (Spam) or 0 (Not Spam).
         """
         output = self.network.forward(embedding)
-        return 1 if output >= 0.5 else 0
+        return output
 
     def train(self, X_train, y_train, epochs=100, learning_rate=0.01):
         """
