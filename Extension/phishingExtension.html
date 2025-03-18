@@ -24,36 +24,7 @@
     <h1 class="text-center">Good day</h1>
     <button type="button" class="btn btn-primary" id="getEmailButton">Retrieve Email Information</button>
 
-    <script>
-        document.getElementById("getEmailButton").addEventListener("click", async () => {
-            // Get the active tab in the current window
-            let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-            // Check if the current tab is a Gmail page
-            if (tab.url.includes("mail.google.com")) {
-                // Inject content.js into the active Gmail tab
-                chrome.scripting.executeScript({
-                    target: { tabId: tab.id },
-                    function: extractEmailContent
-                });
-            } else {
-                // Alert if the tab is not Gmail
-                alert("Please open Gmail to retrieve email content.");
-            }
-        });
-
-        // Function that will be executed inside the Gmail tab (injected by content.js)
-        function extractEmailContent() {
-            // Query the email body element in Gmail (this might vary depending on Gmail's structure)
-            let emailBody = document.querySelector(".a3s");  // Gmail email body class selector
-            if (emailBody) {
-                console.log("Email Content:", emailBody.innerText);
-                alert("Email Retrieved: " + emailBody.innerText.substring(0, 100) + "...");
-            } else {
-                console.log("No email found.");
-                alert("No email found.");
-            }
-        }
-    </script>
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
