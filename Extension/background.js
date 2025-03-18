@@ -4,5 +4,6 @@ function getEmail() {
       target: { tabId: tab.id },
       files: ["content.js"],
     });
+    console.log("HASHDJAHSDKJAS")
   });
 }
