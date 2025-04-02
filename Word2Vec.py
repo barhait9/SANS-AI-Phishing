@@ -11,7 +11,7 @@ vocab = list(set(word for email in emails for sentence in email for word in sent
 word2idx = {word: i for i, word in enumerate(vocab)}
 idx2word = {i: word for word, i in word2idx.items()}
 
-def generate_training_data(emails_words, word2idx, window_size=3, neg_samples=2):
+def generate_training_data(emails_words, word2idx, window_size=3, neg_samples=0):
     training_data = []
     for email in emails:
         for sentence in email:
@@ -76,6 +76,8 @@ class SkipGram:
 
         self.W2 -= self.learning_rate * np.outer(h, error)
         self.W1[target_idx] -= self.learning_rate * np.dot(self.W2, error)
+
+        
     # Now train Neural network using window array and target word
 
 
@@ -83,9 +85,12 @@ class SkipGram:
         progress = 0
         for epoch in range(epochs):
             total_loss = 0
+            progress = 0
             for target_idx, context_idx, _ in training_data:
                 y_pred, h = self.forward(target_idx)
                 self.backprop(target_idx,context_idx,y_pred,h)
+                progress += 1
+                print(((progress / 5556) * 100),"%")
                 total_loss += -np.log(y_pred[context_idx])
                 progress += 1
                 print((progress / len(training_data)) * 100, " % ")
