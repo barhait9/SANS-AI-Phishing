@@ -22,8 +22,12 @@ class EmailNetwork:
         Returns:
             int: 1 (Spam) or 0 (Not Spam).
         """
-        output = self.network.forward(embedding)
-        return output
+        output = self.network.forward(embedding,training=False)
+        print(output)
+        if output >= 0.5:
+            return "Spam"
+        else:
+            return "Not Spam"
 
     def train(self, X_train, y_train, epochs=100, learning_rate=0.01):
         """
@@ -36,3 +40,7 @@ class EmailNetwork:
             learning_rate (float): Learning rate.
         """
         self.network.train(X_train, y_train, epochs, learning_rate)
+    def save_weights(self,filename):
+        self.network.save_weights(filename)
+    def load_weights(self,filename):
+        self.network.load_weights(filename)
