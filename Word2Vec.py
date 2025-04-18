@@ -96,6 +96,7 @@ class SkipGram:
         
     # Now train Neural network using window array and target word
 
+
     def train(self, training_data, batch_size=1024, epochs=10):
         total = len(training_data)
 
