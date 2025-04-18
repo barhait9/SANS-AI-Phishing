@@ -18,12 +18,27 @@
             display: block;
             margin: auto;
         }
+        #message{
+            color: blue;
+        }
+        #response{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
-    <h1 class="text-center">Good day</h1>
-    <button type="button" class="btn btn-primary" id="getEmailButton">Retrieve Email Information</button>
-
+    <h1 class="text-center">Spam Checker!</h1>
+    <button type="button" class="btn btn-primary" id="getEmailButton">Check Email for spam</button>
+    <div id="response">
+        <h1 id="message">Awaiting result</h1>
+        <div id="loading" class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     <!-- Link to external JavaScript file -->
     <script src="script.js"></script>
 </body>
