@@ -11,12 +11,30 @@ document.getElementById("getEmailButton").addEventListener("click", async () => 
     }
 });
 
-function extractEmailContent() {
+async function extractEmailContent() {
     const emailBody = document.querySelector(".a3s");
     if (emailBody) {
         console.clear;
-        console.log("Email Content:", emailBody.innerText);
-        //alert("Email Retrieved: " + emailBody.innerText.substring(0, 100) + "...");
+        console.log("function worked");
+        try {
+            const response = await fetch('http://127.0.0.1:8000/verify', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'text/plain',
+              },
+              body: emailBody.innerText,  // Send the raw email content as the body
+            });
+        
+            const result = await response.json();
+            if (result.classified !== undefined) {
+              document.getElementById('result').textContent = `Classified result: ${result.classified}`;
+            } else {
+              document.getElementById('result').textContent = `Error: ${result.error}`;
+            }
+          } catch (error) {
+            console.error('Error making request:', error);
+            document.getElementById('result').textContent = `Error: ${error.message}`;
+          }
     } else {
         console.log("No email found.");
         alert("No email found.");
