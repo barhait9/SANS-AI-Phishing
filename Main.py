@@ -1,3 +1,4 @@
+from urllib.request import Request
 from starlette.middleware.cors import CORSMiddleware
 from EmailNetwork import EmailNetwork
 import numpy as np
