@@ -9,37 +9,7 @@ import logging
 
 if __name__ == "__main__":
 
-
-
-
-
-    def save_network(model, filename):
-        """
-        Saves the EmailNetwork object to a file.
-
-        Args:
-            model (EmailNetwork): The trained EmailNetwork instance.
-            filename (str): File path to save the model.
-        """
-        with open(filename, 'wb') as f:
-            pickle.dump(model, f)
-        print(f"Model saved to {filename}")
-
-
-    def load_network(filename):
-        """
-        Loads an EmailNetwork object from a file.
-
-        Args:
-            filename (str): Path to the saved model.
-
-        Returns:
-            EmailNetwork: The loaded EmailNetwork instance.
-        """
-        with open(filename, 'rb') as f:
-            model = pickle.load(f)
-        print(f"Model loaded from {filename}")
-        return model
+    #Original Code used to train the Email AI
     '''data,dataOriginal, labels = le.getTrainingData()
     trainingData = data[:4300]
     trainingLabels = labels[:4300]
@@ -75,15 +45,6 @@ app.add_middleware(
     allow_headers=["*"],     # Allow all headers
 )
 
-
-'''@app.post("/verify")
-async def verify(request: Request):
-    email = await request.body()
-    email = email.decode("utf-8")  # convert bytes to string
-    email_net = EmailNetwork()
-    email_net.load_weights("email_network1")
-    return email_net.classify(email)'''
-
 @app.post("/verify")
 async def verify(request: Request):
     try:
@@ -93,10 +54,10 @@ async def verify(request: Request):
         email_embedding = le.createEmbeddingFromEmail(email)
         # Load model
         email_net = EmailNetwork()
-        email_net.load_weights("EmailAI/email_network1")  # Make sure this file exists
+        email_net.load_weights("EmailAI/email_network1")
 
-        # Classify
-        result = email_net.classify(email_embedding)  # Make sure this function accepts raw string
+        #Classify Email
+        result = email_net.classify(email_embedding)
         return {"classified": result}
     except Exception as e:
         print("ERROR:", str(e))
