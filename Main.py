@@ -54,7 +54,7 @@ async def verify(request: Request):
         email_embedding = le.createEmbeddingFromEmail(email)
         # Load model
         email_net = EmailNetwork()
-        email_net.load_weights("EmailAI/email_network1")
+        email_net.load_weights("backend/EmailAI/email_network1")
 
         #Classify Email
         result = email_net.classify(email_embedding)
