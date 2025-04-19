@@ -1,8 +1,8 @@
 from urllib.request import Request
 from starlette.middleware.cors import CORSMiddleware
-from EmailNetwork import EmailNetwork
+from EmailAI.EmailNetwork import EmailNetwork
 import numpy as np
-import loadEmbeddings as le
+import LoadingEmbeddings.loadEmbeddings as le
 import pickle
 from fastapi import *
 import logging

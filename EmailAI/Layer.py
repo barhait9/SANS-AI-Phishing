@@ -1,6 +1,6 @@
 import numpy as np
-from Neuron import Neuron
-from Activation import Activation
+from EmailAI.Neuron import Neuron
+from EmailAI.Activation import Activation
 
 
 class Layer:

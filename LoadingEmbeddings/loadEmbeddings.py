@@ -1,5 +1,5 @@
 import numpy as np
-import DataFormatter as df
+import DataHandle.DataFormatter as df
 
 
 
@@ -60,7 +60,7 @@ def embedEmail(embeddings):
         return np.mean(embeddings, axis=0)
 
 def getTrainingData():
-    embeddings_path = 'word_embeddings.txt'
+    embeddings_path = 'DataHandle/word_embeddings.txt'
     word_to_vec = load_custom_embeddings(embeddings_path)
     emailsShuffled,emailsOriginal = df.getAllEmails()
     embeddings, labels = text_to_embedding(word_to_vec, emailsShuffled)
@@ -70,7 +70,7 @@ def getTrainingData():
     return email_embeddingsShuffled,email_embeddings,labels
 
 def createEmbeddingFromEmail(email):
-    embeddings_path = 'word_embeddings.txt'
+    embeddings_path = 'DataHandle/word_embeddings.txt'
     word_to_vec = load_custom_embeddings(embeddings_path)
     embedding = embedEmail(inputToEmbedding(word_to_vec,email))
     return embedding

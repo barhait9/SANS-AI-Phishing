@@ -1,5 +1,5 @@
 import numpy as np
-from Activation import Activation
+from EmailAI.Activation import Activation
 
 
 class Neuron:

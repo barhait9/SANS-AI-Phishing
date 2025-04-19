@@ -1,3 +1,5 @@
+import random
+
 import pandas as pd
 import re
 
@@ -6,6 +8,8 @@ This file will separate the CSV data into 3 arrays: subject, body, label
 subject[0], body[0], label[0] will correspond to the first email
 This file will then have all the data for the Word2Vec to train from
 '''
+
+
 def specGone(sentence):
     return re.sub(r'[^a-zA-Z.!?@\s]', '', sentence).replace("\n", " ").replace("�", "")
 
@@ -13,16 +17,17 @@ def removeSpace(sentence):
     return re.sub(r'\s+', ' ', sentence)
 
 
-df = pd.read_csv("dataset.csv")
+df = pd.read_csv("DataHandle/shuffled_dataset.csv")
 subjects = df.get("Subject")
 bodies = df.get("Body")
+labels = df.get("Label")
 
 bodyArray = []
 subjectArray = []
 
 for i in range(0, len(bodies)):
     bodyArray.append(removeSpace(specGone(str(bodies[i]))))
-   # bodyArray.append(bodies[i])
+   # bodyArray.append(bodies[i])`
 
 for i in range(0, len(subjects)):
     subjectArray.append(removeSpace(specGone(str(subjects[i]))))
@@ -81,5 +86,12 @@ for i in range(len(bodyAsWords)-1, -1, -1): # iterating through list starting fr
 def get_cleaned_dataset():
     return bodyAsWords
 
+def getAllEmails():
+    EmailArray = []
+    for i in range(0, len(bodies)):
+        intLabel = int(labels[i])
+        EmailArray.append(removeSpace(specGone(str(bodies[i])))+str(intLabel))
+    shuffled = random.sample(EmailArray, len(EmailArray))
+    return shuffled,EmailArray
 
 # bodyAsWords fully cleaned?

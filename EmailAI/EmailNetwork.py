@@ -1,6 +1,6 @@
 import numpy as np
-from Network import Network
-from Activation import Activation
+from EmailAI.Network import Network
+from EmailAI.Activation import Activation
 
 
 class EmailNetwork:
