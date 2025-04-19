@@ -1,6 +1,6 @@
 import numpy as np
 from EmailAI.Layer import Layer
-from backend.EmailAI.Activation import Activation
+from EmailAI.Activation import Activation
 
 
 class Network:

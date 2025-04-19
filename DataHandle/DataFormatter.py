@@ -1,13 +1,16 @@
 import random
-
+import os
 import pandas as pd
 import re
+from PathResolver import path_resolver as pr
+
 
 '''
 This file will separate the CSV data into 3 arrays: subject, body, label
 subject[0], body[0], label[0] will correspond to the first email
 This file will then have all the data for the Word2Vec to train from
 '''
+csv_path = pr.resolve("shuffled_dataset.csv")
 
 
 def specGone(sentence):
@@ -17,7 +20,10 @@ def removeSpace(sentence):
     return re.sub(r'\s+', ' ', sentence)
 
 
-df = pd.read_csv("DataHandle/shuffled_dataset.csv")
+try:
+    df = pd.read_csv(csv_path)
+except FileNotFoundError:
+    raise FileNotFoundError(f"Could not find dataset at: {csv_path}")
 subjects = df.get("Subject")
 bodies = df.get("Body")
 labels = df.get("Label")

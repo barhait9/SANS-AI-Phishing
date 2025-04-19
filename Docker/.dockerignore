@@ -30,6 +30,5 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-Word2Vec/Word2Vec.py
 LICENSE
 README.md

@@ -1,8 +1,6 @@
 import numpy as np
-import DataHandle.DataFormatter as df
-
-
-
+from DataHandle.DataFormatter import getAllEmails
+from PathResolver import path_resolver as pr
 
 def load_custom_embeddings(file_path):
     '''
@@ -98,9 +96,9 @@ def getTrainingData():
     Generates training data and converts to word embeddings for 
     the email AI to train on using the dataset 
     '''
-    embeddings_path = 'DataHandle/word_embeddings.txt'
+    embeddings_path = 'backend/DataHandle/word_embeddings.txt'
     word_to_vec = load_custom_embeddings(embeddings_path)
-    emailsShuffled,emailsOriginal = df.getAllEmails()
+    emailsShuffled,emailsOriginal = getAllEmails()
     embeddings, labels = text_to_embedding(word_to_vec, emailsShuffled)
     email_embeddingsShuffled = embedEmails(embeddings)
     embeddings, labelsNotUse = text_to_embedding(word_to_vec, emailsOriginal)
@@ -112,7 +110,7 @@ def createEmbeddingFromEmail(email):
     Creates one embedding for the email you want to classify i.e email you want to test for spam
     '''
     
-    embeddings_path = 'DataHandle/word_embeddings.txt'
+    embeddings_path = pr.resolve("word_embeddings.txt")
     word_to_vec = load_custom_embeddings(embeddings_path)
     embedding = embedEmail(inputToEmbedding(word_to_vec,email))
     return embedding
