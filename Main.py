@@ -93,7 +93,7 @@ async def verify(request: Request):
         email_embedding = le.createEmbeddingFromEmail(email)
         # Load model
         email_net = EmailNetwork()
-        email_net.load_weights("email_network1")  # Make sure this file exists
+        email_net.load_weights("EmailAI/email_network1")  # Make sure this file exists
 
         # Classify
         result = email_net.classify(email_embedding)  # Make sure this function accepts raw string
