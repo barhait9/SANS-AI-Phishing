@@ -1,11 +1,12 @@
-from urllib.request import Request
 from starlette.middleware.cors import CORSMiddleware
+import uvicorn
 from EmailAI.EmailNetwork import EmailNetwork
 import numpy as np
-import LoadingEmbeddings.loadEmbeddings as le
+from LoadingEmbeddings.loadEmbeddings import createEmbeddingFromEmail
 import pickle
 from fastapi import *
 import logging
+from PathResolver import path_resolver as pr
 
 if __name__ == "__main__":
 
@@ -40,9 +41,10 @@ def root():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://mail.google.com"],  # Allow Gmail
-    allow_methods=["POST"],  # Allow POST requests
-    allow_headers=["*"],     # Allow all headers
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.post("/verify")
@@ -51,10 +53,11 @@ async def verify(request: Request):
         body = await request.body()
         email = body.decode("utf-8")
         print(f"Received email: {email}")
-        email_embedding = le.createEmbeddingFromEmail(email)
+        email_embedding = createEmbeddingFromEmail(email)
         # Load model
         email_net = EmailNetwork()
-        email_net.load_weights("backend/EmailAI/email_network1")
+        load_path = pr.resolve("email_network1")
+        email_net.load_weights(load_path)
 
         #Classify Email
         result = email_net.classify(email_embedding)
@@ -62,4 +65,3 @@ async def verify(request: Request):
     except Exception as e:
         print("ERROR:", str(e))
         return {"error": str(e)}
-

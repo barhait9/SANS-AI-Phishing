@@ -1,6 +1,6 @@
 import numpy as np
 from EmailAI.Neuron import Neuron
-from backend.EmailAI.Activation import Activation
+from EmailAI.Activation import Activation
 
 
 class Layer:

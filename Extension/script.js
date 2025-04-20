@@ -17,7 +17,7 @@ document.getElementById("getEmailButton").addEventListener("click", async () => 
                 if (result.error) {
                     if (message) {
                         message.style.color = "red";
-                        message.innerText = `Error: ${result.error}`;
+                        message.innerText = `Error:${result.error}`;
                     }
                 } else if (result.classified === "Spam") {
                     if (message) {
@@ -42,14 +42,30 @@ document.getElementById("getEmailButton").addEventListener("click", async () => 
     }
 });
 
+async function getNgrokPublicUrl() {
+    try {
+      const res = await fetch('http://127.0.0.1:4040/api/tunnels');
+      const data = await res.json();
+      const httpsTunnel = data.tunnels.find(t => t.proto === 'https');
+      return httpsTunnel ? httpsTunnel.public_url : null;
+    } catch (err) {
+      console.error('Error fetching ngrok URL:', err);
+      return null;
+    }
+  }
+
 async function extractEmailContent() {
     try {
+        const backendURL = `https://email-api-img-673917483321.europe-west2.run.app`;
+        if(!backendURL){
+            return {error: "ngrok hasn't returned a url"}
+        }
         const emailBody = await document.querySelector(".a3s");
         if (!emailBody) {
             return { error: "Could not find email content" };
         }
         return new Promise((resolve, _) => {
-            fetch('http://127.0.0.1:8000/verify', {
+            fetch(`${backendURL}/verify`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'text/plain',
@@ -58,7 +74,6 @@ async function extractEmailContent() {
             })
             .then(response => response.json())
             .then(result => {
-                console.log("Just answer " + result.classified);
                 resolve(result);
             })
             .catch(error => {
@@ -68,7 +83,8 @@ async function extractEmailContent() {
         });
     } catch (error) {
         console.error('Error making request:', error);
-        document.getElementById('result').textContent = `Error: ${error.message}`;
+        document.getElementById('result').textContent = `Error:${error.message}`;
     }
 
 }
+
