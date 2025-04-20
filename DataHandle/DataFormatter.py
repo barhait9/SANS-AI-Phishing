@@ -2,7 +2,7 @@ import random
 import os
 import pandas as pd
 import re
-from PathResolver import path_resolver as pr
+from backend.PathResolver import path_resolver as pr
 
 
 '''
