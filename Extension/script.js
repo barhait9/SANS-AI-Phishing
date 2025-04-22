@@ -1,7 +1,7 @@
 document.getElementById("getEmailButton").addEventListener("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    document.getElementById('response').style.visibility = "visible";
     if (tab.url.includes("mail.google.com")) {
+        document.getElementById('response').style.visibility = "visible";
         console.log("test");
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
