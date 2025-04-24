@@ -19,8 +19,9 @@ SANS-AI-Spam is a Google Chrome extension designed to detect potentially spam em
 
 ## Usage
 1. Open Gmail in the current tab of your browser.
-2. Interact with the extension by pressing the designated button.
-3. The AI will analyze the emails in the Gmail tab and provide insights on potential spam risks.
+2. Interact with the extension by pressing on the extension icon.
+3. Press the button on the extension with an email open.
+4. The AI will analyze the emails in the Gmail tab and provide insights on potential spam risks.
 
 ## Dependencies
 There are no dependencies required for running this project locally since it operates entirely off of GCP Cloud Run. Anyone with access to the deployed API can utilize it without additional setup.
