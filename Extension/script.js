@@ -22,7 +22,7 @@ document.getElementById("getEmailButton").addEventListener("click", async () => 
                 } else if (result.classified === "Spam") {
                     if (message) {
                         message.style.color = "red";
-                        message.innerText = "Detected Spam act with caution";
+                        message.innerText = "Detected Spam/Phishing scam act with caution";
                     }
                 } else if (result.classified === "Not Spam") {
                     if (message) {
